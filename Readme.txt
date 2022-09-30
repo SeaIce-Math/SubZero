@@ -14,3 +14,5 @@ Xcode is a large file and is available in App Store and online. Downloading the 
 After installing xcode, you may have to run these two lines in the terminal:
 sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 sudo xcodebuild -license accept
+
+The validations from SubZero: A Sea Ice Model with an Explicit Representation of the Floe Life Cycle are included in validation_cases folder as tar files
