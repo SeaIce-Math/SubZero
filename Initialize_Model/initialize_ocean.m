@@ -41,8 +41,8 @@ To = 0; %Kelvin
 rho_ice = 920; %kg/m^3
 L = 2.93e5; % Joules/kg
 
-heat_flux = -k*(To-Ta)/(rho_ice*L); %m^2/s
-h0 = real(sqrt(-2*dt*heat_flux*nDTOut));
-h0 = mean(h0(:)); %Thickness of newly created sea ice
+h0 = real(sqrt(2*k*dt*nDTOut*(To-Ta)/(rho_ice*L)));
+heat_flux = k./h0.*(To-Ta);
+h0 = mean(h0(:)); %Thickness of newly created sea ice;
 
 end
