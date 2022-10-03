@@ -34,9 +34,16 @@ ocean.Vocn=Vocn;
 
 %Calculate heat flux and how much ice would grow between creation of new
 %floes
-Ta = -20; Tocean = 2*ones(size(Xocn));
-heat_flux = 2.14*(Tocean-Ta)/(920*2.93e5); %m^2/s
-h0 = real(sqrt(2*dt*heat_flux*nDTOut));
+k = 2.14; %Watts/(meters Kelvin)
+dt = 10; %seconds
+Ta = -20; %Kelvin
+To = 0; %Kelvin
+rho_ice = 920; %kg/m^3
+L = 2.93e5; % Joules/kg
+
+Ta = -20; Tocean = 3*ones(size(Xocn));
+h0 = real(sqrt(2*k*dt*nDTOut*(Tocean-Ta)/(rho_ice*L)));
+heat_flux = k./h0.*(Tocean-Ta); 
 h0 = mean(h0(:)); %Thickness of newly created sea ice
 
 end
