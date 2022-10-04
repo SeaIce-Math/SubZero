@@ -65,7 +65,7 @@ h = floe.h;
 floe_inertia_moment=floe.inertia_moment; % moment of inertia
 
 %% update values based upon thermodynamic growth
-dh = -HFo*dt./h;
+dh = HFo*dt./h;
 floe_mass = (h-dh)./h.*floe_mass; floe.mass = floe_mass;
 floe_inertia_moment = (h-dh)./h.*floe_inertia_moment;
 floe.inertia_moment = floe_inertia_moment;
