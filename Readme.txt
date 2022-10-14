@@ -3,7 +3,7 @@ Download SubZero contents to their own folder.
 Within Matlab enter the private folder and run mex('-D__int64=__int64_t','clipper.cpp','mexclipper.cpp') in MATLAB command window.
 
 *** Zenodo DOI ***
-[![DOI](https://zenodo.org/badge/543784052.svg)](https://zenodo.org/badge/latestdoi/543784052)
+[![DOI]https://doi.org/10.5281/zenodo.7199941
 
 
 *** How to set up and run SubZero ***
