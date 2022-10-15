@@ -91,7 +91,7 @@ ax.GridAlpha = 0.5;
 
 %% Plot the Floes and Ghost Floes
 plot([Floe(1:N0).poly],'FaceColor','k','FaceAlpha',0.3,'EdgeColor',[1 1 1]*0.2);
-if PERIODIC
+if PERIODIC && N > N0
     plot([Floe(N0+1:N).poly],'FaceColor','k','FaceAlpha',0.5,'EdgeColor',[1 1 1]*0.2);
 end
 if Nb > 0
