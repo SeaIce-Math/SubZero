@@ -137,8 +137,8 @@ else
         
             du=Uocn_interp-Uice; dv=Vocn_interp-Vice;            
         
-            tau_ocnX=rho0*Cd*sqrt(du.^2+dv.^2).*( cos(ocean.turn_angle)*du+sin(ocean.turn_angle)*dv); % ocean stress with the turning angle
-            tau_ocnY=rho0*Cd*sqrt(du.^2+dv.^2).*(-sin(ocean.turn_angle)*du+cos(ocean.turn_angle)*dv);
+            tau_ocnX=rho0*Cd*sqrt(du.^2+dv.^2).*( cos(ocean.turn_angle)*du-sin(ocean.turn_angle)*dv); % ocean stress with the turning angle
+            tau_ocnY=rho0*Cd*sqrt(du.^2+dv.^2).*(sin(ocean.turn_angle)*du+cos(ocean.turn_angle)*dv);
             
             Fx=tau_ocnX+Fx_atm+Fx_pressureGrad; 
             Fy=tau_ocnY+Fy_atm+Fy_pressureGrad;
