@@ -41,7 +41,7 @@ This code is also saved on Zenodo
     + ```sudo xcode-select -s /Applications/Xcode.app/Contents/Developer```
     + ```sudo xcodebuild -license accept```
    
- 7. Re-do step 4.
+ 7. Shut down MATLBA, ro-open, and re-do step 4.
  
  ## Running your first model
 
@@ -49,18 +49,18 @@ Model runs out of the box. Currently set up model creates ~10 floes that fill th
 
 To change the model, the following steps can be taken:
 
-1. Define the boundaries of the domain `initialize_boundaries.m` file. Three options are present, with two commented out. Choose one of the given options or write your own.
+1. Define the boundaries of the domain `initialize_boundaries.m` file. Three options are present, with two commented out. Choose one of the given options, or write your own.
 
-2. Set up desired ocean forcings in `initialize_ocean.m` file. Specifically see the `psi_ocean`, `Uocn`, and `Vocn` variables. Note that your ocean must be bigger than the boundaries of the domain, in some cases signifigantly bigger to prevent errors with periodic boundaries. Additionally, the user is responsible for making the ocean doubly periodic outside of domain bounds. 
+2. Set up desired ocean forcings in `initialize_ocean.m` file. Specifically see the `psi_ocean`, `Uocn`, and `Vocn` variables. Note that your ocean must be bigger than the boundaries of the domain, in some cases significantly bigger to prevent errors with periodic boundaries. Additionally, the user is responsible for making the ocean doubly periodic outside of domain bounds. 
 
-3. Define the atmospheric winds within the `SubZero.m file`. Specifically see the `winds.u` and `winds.v` variables.
+3. Define the atmospheric winds within the `SubZero.m` file. Specifically see the `winds.u` and `winds.v` variables.
 
-4. Define the concentration and number of floes you wish to start the run with in SubZero.m file. The concentration is the fraction of the domain that will initally be covered in ice. For this, see the variable `target_concentration` around line 57. This variable is repurposed below for concentration when packing (set to 1), so the initial value must be set for model initialization. The number of floes is the fourth argument in the following line:
-`[Floe, Nb] = initial_concentration(c2_boundary,target_concentration,height,10,min_floe_size)` - here 10 floes.
+4. Define the concentration and number of floes you wish to start with in the SubZero.m file. The concentration is the fraction of the domain that will initally be covered in ice. For this, see the variable `target_concentration` around line 57. This variable is repurposed below for concentration when packing (re-set to 1), so the initial value must be set for model initialization. The number of floes is the fourth argument in the following line:
+  `[Floe, Nb] = initial_concentration(c2_boundary,target_concentration,height,10,min_floe_size)` - here 10 floes.
 
-5. Within `initial_concentration`, topography can be added to the simulation. These will be represented as immovable, unbreakable floes. `Nb` is the number of these boundaries and their shape can be input here as well. See Nares Strait example within the `validation_cases` folder.
+5. Within `initial_concentration`, topography can be added to the simulation. These will be represented as immovable, unbreakable floes. `Nb` is the number of these boundaries and their shape can be input here as well. See Nares Strait example within the `validation_cases` folder to see how to add these elements.
 
-5. Set the flags for desired physical processes to true as well as the frequency with which you want them to execute in `SubZero.m file`. The flags are the the beginning of the file, while the frequencies are lower throughout the file. Look for lines of the form `if FRACTURES && mod(i_step,75)==0` with different flags. These lines give the frequency of each of these flag operations. In the example above, fractures happen every 75 timesteps.
+5. Set the flags for desired physical processes to `true` as well as the frequency with which you want them to execute in `SubZero.m` file. The flags are the the beginning of the file, while the frequencies are lower throughout the file. Look for lines of the form `if FRACTURES && mod(i_step,75)==0` with different flags. These lines give the frequency of each of these flag operations. In the example above, fractures happen every 75 timesteps.
 
 7. Set the timestep `dt` directly under the flags.
 
