@@ -14,9 +14,6 @@
   <a href="https://doi.org/10.5281/zenodo.7199941">
     <img alt="Zenodo" src="https://zenodo.org/badge/doi/10.5281/zenodo.7199941.svg">
   </a>
-  <a href="https://opensource.org/licenses/BSD-3-Clause">
-    <img alt="BSD 3-Clause license" src="https://img.shields.io/badge/License-BSD_3--Clause-blue.svg">
-  </a>
 </p>
 
 This unique model uses parameterizations of floe-scale processes, such as collisions, fractures, ridging, and welding, to by pass resolving intra-floe bonded elements. We demonstrate the novel capabilities of the SubZero model in idealized experiments, including uniaxial compression, the summer-time sea ice flow through the Nares Strait and a winter-time equilibration of floe size and
