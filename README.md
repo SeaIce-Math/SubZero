@@ -38,7 +38,7 @@ This code is also saved on Zenodo
     + ```sudo xcode-select -s /Applications/Xcode.app/Contents/Developer```
     + ```sudo xcodebuild -license accept```
    
- 7. Shut down MATLBA, ro-open, and re-do step 4.
+ 7. Shut down MATLAB, re-open, and re-do step 4.
  
  ## Running your first model
 
@@ -57,7 +57,7 @@ To change the model, the following steps can be taken:
 
 5. Within `initial_concentration`, topography can be added to the simulation. These will be represented as immovable, unbreakable floes. `Nb` is the number of these boundaries and their shape can be input here as well. See Nares Strait example within the `validation_cases` folder to see how to add these elements.
 
-5. Set the flags for desired physical processes to `true` as well as the frequency with which you want them to execute in `SubZero.m` file. The flags are the the beginning of the file, while the frequencies are lower throughout the file. Look for lines of the form `if FRACTURES && mod(i_step,75)==0` with different flags. These lines give the frequency of each of these flag operations. In the example above, fractures happen every 75 timesteps.
+5. Set the flags for desired physical processes to `true` as well as the frequency with which you want them to execute in `SubZero.m` file. The flags are at the beginning of the file, while the frequencies are lower throughout the file. Look for lines of the form `if FRACTURES && mod(i_step,75)==0` with different flags. These lines give the frequency of each of these flag operations. In the example above, fractures happen every 75 timesteps.
 
 7. Set the timestep `dt` directly under the flags.
 
@@ -75,7 +75,7 @@ Here we demonstrate the behavior of sea ice floes subject to uniaxial compressio
 The Nares Strait simulation demonstrates the role of floe fractures in wind-driven sea ice transport through narrow straits. Nares Strait is a channel between Ellesmere Island (Canada) and Greenland. The simulation aims to reflect spring or summer-like conditions of Arctic sea ice export through Nares Strait after the breakup of its winter arches. Since the transport events are relatively short (order of days or less), the effects of thermodynamic sea ice melt could be considered secondary relative to mechanical floe processes such as collisions and fractures. We thus randomly initialize the model with relatively large floes of uniform thickness, covering only the area just north of the strait. The uniform 10 m/s southward winds generate stresses that push the floes through the strait, while the ocean is assumed to be stagnant. Coastal boundaries are prescribed using a series of static floes. All physical processes except collisions and fractures are turned off to model the spring/summer breakup of floes.
   
 ### 3. Winter ITD and FSD equilibration:
-Here we demonstrate an essential case of model equilibration in winter-like conditions, where all parameterizations are active. We subject sea ice to strong mechanical and thermodynamic forcing over a five week period to facilitate an accelerated model evolution away from the initialized floe shapes, sizes, and thicknesses towards typical winter-like distributions. Specifically, we prescribe idealized ice-ocean stresses in the form of four equal-strength counter-rotating gyres (arranged like mechanical gears) that create relative sea ice motion and facilitate floe fractures and ridging. Alternatively, one could prescribe atmosphere-ocean stresses to achieve the same goal, but in this run the winds are set to 0. To make this a winter-like simulation, we ensured a continuous sea ice growth by specifying a fixed negative heat flux that increases the thickness of existing ice floes, the formation of new ice floes in open ocean regions, and welding between floes.
+Here we demonstrate an essential case of model equilibration in winter-like conditions, where all parameterizations are active. We subject sea ice to strong mechanical and thermodynamic forcing over a five week period to facilitate an accelerated model evolution away from the initialized floe shapes, sizes, and thicknesses towards typical winter-like distributions. Specifically, we prescribe idealized ice-ocean stresses in the form of four equal-strength counter-rotating gyres (arranged like mechanical gears) that create relative sea ice motion and facilitate floe fractures and ridging. Alternatively, one could prescribe atmosphere-ocean stresses to achieve the same goal, but in this run the winds are set to 0. To make this a winter-like simulation, we ensured continuous sea ice growth by specifying a fixed negative heat flux that increases the thickness of existing ice floes, the formation of new ice floes in open ocean regions, and welding between floes.
   
 ## Community Guidelines
 
