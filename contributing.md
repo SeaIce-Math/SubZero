@@ -1,6 +1,6 @@
 # Contributors Guide
 
-Thank you for considering contributing to Oceananigans! 
+Thank you for considering contributing to SubZero! 
 
 Feel free to ask us questions and chat with us at any time about any topic at all
 by 
@@ -14,11 +14,11 @@ practices. We ask that new contributors read that guide before submitting a pull
 
 ## Creating issues
 
-The simplest way to contribute to Oceananigans is to create or comment on issues and discussions.
+The simplest way to contribute to SubZero is to create or comment on issues and discussions.
 
 The most useful bug reports:
 
-* Provide an explicit code snippet --- not just a link --- that reproduces the bug in the latest tagged version of Oceananigans. This is sometimes called the ["minimal working example"](https://en.wikipedia.org/wiki/Minimal_working_example). Reducing bug-producing code to a minimal example can dramatically decrease the time it takes to resolve an issue.
+* Provide an explicit code snippet --- not just a link --- that reproduces the bug in the latest tagged version of SubZero. This is sometimes called the ["minimal working example"](https://en.wikipedia.org/wiki/Minimal_working_example). Reducing bug-producing code to a minimal example can dramatically decrease the time it takes to resolve an issue.
 
 * Paste the _entire_ error received when running the code snippet, even if it's unbelievably long.
 
@@ -44,7 +44,7 @@ Discussions are recommended for asking questions about (for example) the user in
 
 * We ask that new contributors try their hand at forking SubZero, and opening and merging a pull request before requesting collaborator status.
 
-## What's a good way to start developing Oceananigans?
+## What's a good way to start developing SubZero?
 
 * Begin running one of the provided test cases. 
 
