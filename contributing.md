@@ -48,18 +48,13 @@ Discussions are recommended for asking questions about (for example) the user in
 
 * Begin running one of the provided test cases. 
 
-* Try to run SubZero and play around with it to simulate your favorite
-  sea ice scenario. If you run into any bugs/problems or find it difficult
+* Try to run SubZero and play around with it to simulate your favorite sea ice scenario. If you run into any bugs/problems or find it difficult
   to use or understand, please open an issue!
 
-* Write up an example or tutorial on how to do something useful with
-  SubZero, like how to set up a new physical configuration.
+* Write up an example or tutorial on how to do something useful with SubZero, like how to set up a new physical configuration.
 
 * Improve documentation or comments if you found something hard to use.
 
 * Implement a new feature if you need it to use SubZero.
 
-If you're interested in working on something, let us know by commenting on
-existing issues or by opening a new issue. This is to make sure no one else
-is working on the same issue and so we can help and guide you in case there
-is anything you need to know beforehand.
+If you're interested in working on something, let us know by commenting on existing issues or by opening a new issue. This is to make sure no one else is working on the same issue and so we can help guide you in case there is anything you need to know beforehand.
