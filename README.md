@@ -72,7 +72,46 @@ To see examples of different scenarios, see the examples included in `validation
 Here we demonstrate the behavior of sea ice floes subject to uniaxial compression in a confined domain. The run is initialized with 200 floes in a fully-packed domain with the North/South boundaries moving towards the center of the domain, and stationary East/West boundaries. A relatively small time step, dt=5 s, is used to resolve the elastic waves in response to external boundary motion and changes in the floe configuration due to fractures. The atmospheric and oceanic stresses are set to zero for this simplified test. The floes are subject to Mohr-Coulomb fracture criteria, but there is no floe simplification, corner grinding, welding, ridging, rafting, or creation of new floes in this scenario. The boundaries move with a constant prescribed velocity, v_b = 0.1 m/s.
   
 ### 2. Nares Strait:
-The Nares Strait simulation demonstrates the role of floe fractures in wind-driven sea ice transport through narrow straits. Nares Strait is a channel between Ellesmere Island (Canada) and Greenland. The simulation aims to reflect spring or summer-like conditions of Arctic sea ice export through Nares Strait after the breakup of its winter arches. Since the transport events are relatively short (order of days or less), the effects of thermodynamic sea ice melt could be considered secondary relative to mechanical floe processes such as collisions and fractures. We thus randomly initialize the model with relatively large floes of uniform thickness, covering only the area just north of the strait. The uniform 10 m/s southward winds generate stresses that push the floes through the strait, while the ocean is assumed to be stagnant. Coastal boundaries are prescribed using a series of static floes. All physical processes except collisions and fractures are turned off to model the spring/summer breakup of floes.
+The Nares Strait simulation demonstrates the role of floe fractures in wind-driven sea ice transport through narrow straits. Nares Strait is a channel between Ellesmere Island (Canada) and Greenland. The simulation aims to reflect spring or summer-like conditions of Arctic sea ice export through Nares Strait after the breakup of its winter arches. Since the transport events are relatively short (order of days or less), the effects of thermodynamic sea ice melt could be considered secondary relative to mechanical floe processes such as collisions and fractures. We thus randomly initialize the model with relatively large floes of uniform thickness, covering only the area just north of the strait. The uniform 10 m/s southward winds generate stresses that push the floes through the strait, while the ocean is assumed to be stagnant. Coastal boundaries are prescribed using a series of static floes. All physical processes except collisions and fractures are turned off to model the spring/summer breakup of floes. To modify the program to run the Nares validation case on your own, the following changes must be made.
+  
+1. In `Subzero.m' set flags to false except FRACTURES, COLLISION, and KEEP_MIN to true. The variables `height.mean' is set to 1 and `height.delta' should be set to 0. Atospheric winds should be U0 = 0 and V0 = -10. Target_concentration = [1; 0], and the number of initial floes is 150. The frequency for fractures is set to mod(i_step,150).
+
+2. In `initialize_ocean.m' the ocean grid is set such that dXo=20000 meters, Lx=Ly =2e6 meters, and ocean velocity field is set to zero.
+  
+3. In `initialize_boundaries.m' the box is set such that Lx=50 kilometers, the top y boundary is 500 kilometers and the bottom y boundary is -250 kilometers.
+  
+4. In `initialize_concentration.m' Add the following lines after dy = y(2) -y(1);
+  
+Lx = abs(min(x));Ly = abs(min(y));
+Bx = [-Lx -Lx Lx    Lx];
+By = [-Ly  -1.5e5 -1.5e5  -Ly];
+B = polyshape(Bx',By');  
+
+%Create floes that act as boundaries and wont move
+load( './Nares/Nares_Strait_segments','R')
+
+%Remove islands
+if ~ISLANDS
+ R(1:4) = [];
+end
+
+Floe = []; bound = c2_boundary_poly;
+for ii = 1:length(R)
+    FloeNEW = initialize_floe_values(R(ii),height);
+    bound = subtract(bound, FloeNEW.poly);
+    Floe = [Floe FloeNEW];
+end
+N = length(Floe);
+for ii = 1:N
+    Floe(ii).poly = polyshape(Floe(ii).c_alpha'+[Floe(ii).Xi Floe(ii).Yi]);
+end
+
+Bu = union([Floe.poly]);
+Bu = union(Bu,B);
+  
+5. In `floe_interactions_all.m'
+  
+6. In calc_trajectory.m'
   
 ### 3. Winter ITD and FSD equilibration:
 Here we demonstrate an essential case of model equilibration in winter-like conditions, where all parameterizations are active. We subject sea ice to strong mechanical and thermodynamic forcing over a five week period to facilitate an accelerated model evolution away from the initialized floe shapes, sizes, and thicknesses towards typical winter-like distributions. Specifically, we prescribe idealized ice-ocean stresses in the form of four equal-strength counter-rotating gyres (arranged like mechanical gears) that create relative sea ice motion and facilitate floe fractures and ridging. Alternatively, one could prescribe atmosphere-ocean stresses to achieve the same goal, but in this run the winds are set to 0. To make this a winter-like simulation, we ensured continuous sea ice growth by specifying a fixed negative heat flux that increases the thickness of existing ice floes, the formation of new ice floes in open ocean regions, and welding between floes.
