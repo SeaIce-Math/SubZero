@@ -80,39 +80,76 @@ The Nares Strait simulation demonstrates the role of floe fractures in wind-driv
   
 3. In `initialize_boundaries.m' the box is set such that Lx=50 kilometers, the top y boundary is 500 kilometers and the bottom y boundary is -250 kilometers.
   
-4. In `initialize_concentration.m' Add the following lines after dy = y(2) -y(1);
+4. In `initialize_concentration.m' 
+ 4a. Add the following lines after dy = y(2) -y(1);
   
-Lx = abs(min(x));Ly = abs(min(y));
-Bx = [-Lx -Lx Lx    Lx];
-By = [-Ly  -1.5e5 -1.5e5  -Ly];
-B = polyshape(Bx',By');  
+  Lx = abs(min(x));Ly = abs(min(y));
+  Bx = [-Lx -Lx Lx    Lx];
+  By = [-Ly  -1.5e5 -1.5e5  -Ly];
+  B = polyshape(Bx',By');  
 
-%Create floes that act as boundaries and wont move
-load( './Nares/Nares_Strait_segments','R')
+  %Create floes that act as boundaries and wont move
+  load( './Nares/Nares_Strait_segments','R')
 
-%Remove islands
-if ~ISLANDS
- R(1:4) = [];
-end
+  %Remove islands
+  if ~ISLANDS
+    R(1:4) = [];
+  end
 
-Floe = []; bound = c2_boundary_poly;
-for ii = 1:length(R)
+  Floe = []; bound = c2_boundary_poly;
+  for ii = 1:length(R)
     FloeNEW = initialize_floe_values(R(ii),height);
     bound = subtract(bound, FloeNEW.poly);
     Floe = [Floe FloeNEW];
-end
-N = length(Floe);
-for ii = 1:N
+  end
+  N = length(Floe);
+  for ii = 1:N
     Floe(ii).poly = polyshape(Floe(ii).c_alpha'+[Floe(ii).Xi Floe(ii).Yi]);
-end
+  end
 
-Bu = union([Floe.poly]);
-Bu = union(Bu,B);
+  Bu = union([Floe.poly]);
+  Bu = union(Bu,B);
+
+ 4b. Then, after ... insert 
+
+  for kk = 1:length(b)
+    poly(kk) = polyshape(b{kk});
+  end
+  poly = intersect([poly],polyB);
+  polyout=subtract([poly],Bu);
+  clear polyIce; polyIce = [];
+  for kk = 1:length(polyout)
+    R = regions(polyout(kk));
+    polyIce = [polyIce; R];
+  end
   
-5. In `floe_interactions_all.m'
+ 4c. Replace the while loop with the following
+  Nf = 1:length(polyIce);%randperm(length(b));
+  while Atot/area(polyB)<=c(jj,ii)
+      floenew = initialize_floe_values(polyIce(Nf(count)),height);
+      Floe = [Floe floenew];
+      count = count+1;
+      Atot = Atot+floenew.area;
+      if count > length(Nf)
+          Atot = area(polyB)+1;
+      end
+   end
   
-6. In calc_trajectory.m'
+ 4d. Finally, after the lines areas = cat(1,Floe.area) add areas(1:Nb) = min_floe_size;
+
+5. In `floe_interactions_all.m' update to include c2_boundary such that it reads [tmp,Fx,Fy] =calc_trajectory(dt,ocean,winds,Floe(i),HFo,doInt,c2_boundary);
   
+6. In calc_trajectory.m'update the first line so the function can take in the addtional input 
+  function [floe,FxOA,FyOA] =calc_trajectory(dt,ocean,winds,floe,HFo, doInt,c2_boundary)
+  
+  After calculating the new floe.c_alpha add the following if statement:
+        if min(floe.c_alpha(2,:))+floe.Yi<min(c2_boundary(2,:))
+            floe.alive = 0;
+        end
+                                                                
+ 7. In `fracture.m' set Pstar = 1e5 and make sure all the Mohr's cone lines are commented out or deleted.                                                    
+ 8. In `floe_interactions.m' set mu = 0.25. 
+                                                                
 ### 3. Winter ITD and FSD equilibration:
 Here we demonstrate an essential case of model equilibration in winter-like conditions, where all parameterizations are active. We subject sea ice to strong mechanical and thermodynamic forcing over a five week period to facilitate an accelerated model evolution away from the initialized floe shapes, sizes, and thicknesses towards typical winter-like distributions. Specifically, we prescribe idealized ice-ocean stresses in the form of four equal-strength counter-rotating gyres (arranged like mechanical gears) that create relative sea ice motion and facilitate floe fractures and ridging. Alternatively, one could prescribe atmosphere-ocean stresses to achieve the same goal, but in this run the winds are set to 0. To make this a winter-like simulation, we ensured continuous sea ice growth by specifying a fixed negative heat flux that increases the thickness of existing ice floes, the formation of new ice floes in open ocean regions, and welding between floes.
   
