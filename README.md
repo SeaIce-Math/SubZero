@@ -13,6 +13,8 @@
     <img alt="Repo status" src="https://www.repostatus.org/badges/latest/active.svg?style=flat-square" />
   <a href="https://doi.org/10.5281/zenodo.7199941">
     <img alt="Zenodo" src="https://zenodo.org/badge/doi/10.5281/zenodo.7199941.svg">
+  <a href="https://github.com/bpm5026/SubZero_bpm/actions/workflows/ci.yml/badge.svg?branch=JOSS">
+    <img alt="GitHub Actions CI Status" src="https://github.com/bpm5026/SubZero_bpm/actions/workflows/ci.yml/badge.svg?branch=JOSS">
   </a>
 </p>
 
@@ -91,7 +93,7 @@ Here we demonstrate the behavior of sea ice floes subject to uniaxial compressio
 
     1i. The frequency for fractures is set to mod(i_step,200)
 
-    1j. After updating time and i_step add the following lines to have the boundary move.
+    1j. After updating ```Time=Time+dt; i_step=i_step+1;``` add the following lines to have the boundary move.
 
         if max(c2_boundary(2,:)) > 85000 && mod(i_step,30)==0
             xb = c2_boundary(1,:);  
@@ -116,6 +118,7 @@ Here we demonstrate the behavior of sea ice floes subject to uniaxial compressio
 The Nares Strait simulation demonstrates the role of floe fractures in wind-driven sea ice transport through narrow straits. Nares Strait is a channel between Ellesmere Island (Canada) and Greenland. The simulation aims to reflect spring or summer-like conditions of Arctic sea ice export through Nares Strait after the breakup of its winter arches. Since the transport events are relatively short (order of days or less), the effects of thermodynamic sea ice melt could be considered secondary relative to mechanical floe processes such as collisions and fractures. We thus randomly initialize the model with relatively large floes of uniform thickness, covering only the area just north of the strait. The uniform 10 m/s southward winds generate stresses that push the floes through the strait, while the ocean is assumed to be stagnant. Coastal boundaries are prescribed using a series of static floes. All physical processes except collisions and fractures are turned off to model the spring/summer breakup of floes. To modify the base program to run the Nares validation case on your own, the following changes must be made.
   
 1. In ```Subzero.m``` set
+    
       1a. flags to false except FRACTURES and COLLISION to true
       
       1b. The variables ```height.mean``` is set to 1 and ```height.delta``` should be set to 0
