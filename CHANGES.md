@@ -1,4 +1,4 @@
-1.0.2 (April 3, 2023)
+1.0.3 (April 3, 2023)
 ==================
 
 - Updates for JOSS paper, including updates to README.md, fixing a bug in calculating collisions between ghost floes, the addition of an automated test, and additional documentation. New documentation includes the CHANGES.md file and CONTRIBUTING.md.
