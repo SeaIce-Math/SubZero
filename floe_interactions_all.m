@@ -11,6 +11,7 @@ Ly= max(c2_boundary(2,:));
 c2_boundary_poly = polyshape(c2_boundary');
 live = cat(1,Floe.alive);
 Floe(live==0)=[];
+FloeNums = 1:length(Floe);
 
 %% Find ghost floes if periodicity is being used
 N0=length(Floe);
@@ -31,6 +32,7 @@ if PERIODIC
             
             ghostFloeX=[ghostFloeX  Floe(i)];
             ghostFloeX(end).Xi=Floe(i).Xi-2*Lx*sign(x(i));
+            FloeNums(end+1) = -abs(FloeNums(i));
             parent=[parent  i];
             translation = [translation; -2*Lx*sign(x(i)) 0];
             
@@ -51,6 +53,7 @@ if PERIODIC
             
             ghostFloeY=[ghostFloeY  Floe(i)];
             ghostFloeY(end).Yi=Floe(i).Yi-2*Ly*sign(y(i));
+            FloeNums(end+1) = -abs(FloeNums(i));
             parent=[parent  i];
             translation = [translation; 0 -2*Ly*sign(y(i))];
 
@@ -86,9 +89,18 @@ for i=1+Nb:N  %do interactions with boundary in a separate parfor loop
     
     k=1;
     
+    %check if parents are already interacting
+    mems = [];
+    if FloeNums(i) < 0
+        num = abs(FloeNums(i));
+        if ~isempty(Floe(num).potentialInteractions)
+            mems = cat(1,Floe(num).potentialInteractions.floeNum);
+        end
+    end
+    
     if ( alive(i) && ~isnan(x(i)) ) && COLLISION
         for j=1:N
-            if j>i && alive(j) && sqrt((x(i)-x(j))^2 + (y(i)-y(j))^2)<(rmax(i)+rmax(j)) % if floes are potentially overlapping
+            if j>i && alive(j) && sqrt((x(i)-x(j))^2 + (y(i)-y(j))^2)<(rmax(i)+rmax(j)) && (~ismember(abs(FloeNums(j)),mems) || 2*(rmax(i)+rmax(j))>min(2*Lx,2*Ly))% if floes are potentially overlapping
                 Floe(i).potentialInteractions(k).floeNum=j;
                 Floe(i).potentialInteractions(k).c=[Floe(j).c_alpha(1,:)+x(j); Floe(j).c_alpha(2,:)+y(j)];
                 Floe(i).potentialInteractions(k).Ui=Floe(j).Ui;
@@ -98,6 +110,7 @@ for i=1+Nb:N  %do interactions with boundary in a separate parfor loop
                 Floe(i).potentialInteractions(k).Xi=x(j);
                 Floe(i).potentialInteractions(k).Yi=y(j);
                 Floe(i).potentialInteractions(k).ksi_ice = Floe(j).ksi_ice;
+                mems = [mems; FloeNums(j)];
                 k=k+1;
             end
             
