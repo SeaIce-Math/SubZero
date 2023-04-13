@@ -135,7 +135,7 @@ parfor i=1+Nb:N  %now the interactions could be calculated in a parfor loop!
             if sum(abs(force_j(:)))~=0
                 Floe(i).interactions=[Floe(i).interactions ; floeNum*ones(size(force_j,1),1) force_j P_j zeros(size(force_j,1),1) overlap'];
                 Floe(i).OverlapArea = sum(overlap)+Floe(i).OverlapArea;
-            elseif isinf(overlap)
+            elseif isinf(overlap) && i > Nb
                 if i <= N0 && sign(overlap)>0
                     kill(i) = i;
                     transfer(i)=floeNum;
