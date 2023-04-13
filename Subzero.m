@@ -339,12 +339,12 @@ while im_num<nSnapshots
     if CORNERS && mod(i_step,10)==0
         
         keep = rand(length(Floe),1)>0.7;
+        overlapArea=cat(1,Floe.OverlapArea)./cat(1,Floe.area);
+        keep(overlapArea>0.15) = 0;
         keep(1:Nb) = ones(Nb,1); %Do not fracture boundaries
         if KEEP_MIN %Do not allow floes below threshold to fracture
             keep(cat(1,Floe.area)<min_floe_size)=1;
         end
-        overlapArea=cat(1,Floe.OverlapArea)./cat(1,Floe.area);
-        keep(overlapArea>0.15) = 0;
         fracturedFloes=corners(Floe(~keep),Nb,Floe,c2_boundary);
         if ~isempty(fracturedFloes)
             Floe=[Floe(keep) fracturedFloes];
