@@ -18,6 +18,14 @@ if ~isempty(floe.interactions)
     floe.StressH(:,:,floe.StressCount) = Stress;
     floe.StressCount = floe.StressCount + 1;
     floe.Stress = mean(floe.StressH,3);
+else
+    [~,~,Nz] = size(floe.StressH);
+    if floe.StressCount > Nz
+        floe.StressCount = 1;
+    end
+    floe.StressH(:,:,floe.StressCount) = zeros(2);
+    floe.StressCount = floe.StressCount + 1;
+    floe.Stress = mean(floe.StressH,3);
 end
 
 if length(ext_force) == 1
