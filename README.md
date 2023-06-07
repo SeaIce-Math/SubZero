@@ -137,7 +137,7 @@ The Nares Strait simulation demonstrates the role of floe fractures in wind-driv
   
 4. In ```initialize_concentration.m``` 
   
-    4a. Add the following lines after ```dy = y(2) -y(1)``` to create the boundaries of Nares Strait: (Note that you will need to include the file `Nares_Strait_segments.mat' in a folder named Nares. This mat file can be found in the Nares validation zip file)
+    4a. Replace the lines  ```Nb = 0; Floe = [];``` with the following to create the boundaries of Nares Strait: (Note that you will need to include the file `Nares_Strait_segments.mat' in a folder named Nares. This mat file can be found in the Nares validation zip file)
   
         Lx = abs(min(x));Ly = abs(min(y));
         Bx = [-Lx -Lx Lx    Lx];  
@@ -148,9 +148,7 @@ The Nares Strait simulation demonstrates the role of floe fractures in wind-driv
         load( './Nares/Nares_Strait_segments','R')
 
         %Remove islands
-        if ~ISLANDS
-          R(1:4) = [];
-        end
+        R(1:4) = [];
 
         Floe = []; bound = c2_boundary_poly;
 
@@ -172,7 +170,7 @@ The Nares Strait simulation demonstrates the role of floe fractures in wind-driv
          for kk = 1:length(b)
            poly(kk) = polyshape(b{kk});
          end  
-         poly = intersect([poly],polyB);
+         poly = intersect([poly],boundary);
          polyout=subtract([poly],Bu);
          clear polyIce; polyIce = [];
          for kk = 1:length(polyout)
@@ -186,13 +184,13 @@ The Nares Strait simulation demonstrates the role of floe fractures in wind-driv
   
     4d. Replace the while loop with the following since we have already created the polyshapes;
   
-        while Atot/area(polyB)<=c(jj,ii)                              
+        while Atot/area(boundary)<=c(jj,ii)                              
           floenew = initialize_floe_values(polyIce(Nf(count)),height);
           Floe = [Floe floenew];
           count = count+1;                                  
           Atot = Atot+floenew.area;        
           if count > length(Nf)  
-              Atot = area(polyB)+1;
+              Atot = area(boundary)+1;
           end  
         end
  
