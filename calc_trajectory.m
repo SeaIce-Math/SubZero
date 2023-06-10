@@ -175,21 +175,21 @@ else
         frac = []; frac1 = [];frac2 = [];
         if abs(dt*dUi_dt) > 0.5*floe.h && abs(dt*dVi_dt) > 0.5*floe.h
             dUi_dt = sign(dUi_dt)*0.5*floe.h/dt;    dVi_dt = sign(dVi_dt)*0.5*floe.h/dt;
-            frac1 = dUi_dt/(floe.FxOA*floe_area+ext_force(1))/floe_mass;
-            frac2 = dVi_dt/(floe.FyOA*floe_area+ext_force(2))/floe_mass;
+            frac1 = dUi_dt/(floe.FxOA*floe_area+ext_force(1))*floe_mass;
+            frac2 = dVi_dt/(floe.FyOA*floe_area+ext_force(2))*floe_mass;
             frac = min([frac1, frac2]);
             dUi_dt=(floe.FxOA*floe_area+ext_force(1))/floe_mass;
             dVi_dt=(floe.FyOA*floe_area+ext_force(2))/floe_mass;
             dUi_dt = frac*dUi_dt; dVi_dt = frac*dVi_dt; 
         elseif abs(dt*dUi_dt) > 0.5*floe.h && abs(dt*dVi_dt) < 0.5*floe.h
             dUi_dt = sign(dUi_dt)*0.5*floe.h/dt;   
-            frac = dUi_dt/(floe.FxOA*floe_area+ext_force(1))/floe_mass;
+            frac = dUi_dt/(floe.FxOA*floe_area+ext_force(1))*floe_mass;
             dUi_dt=(floe.FxOA*floe_area+ext_force(1))/floe_mass;
             dVi_dt=(floe.FyOA*floe_area+ext_force(2))/floe_mass;
             dUi_dt = frac*dUi_dt; dVi_dt = frac*dVi_dt; 
         elseif abs(dt*dUi_dt) < 0.5*floe.h && abs(dt*dVi_dt) > 0.5*floe.h
             dVi_dt = sign(dVi_dt)*0.5*floe.h/dt;
-            frac = dVi_dt/(floe.FyOA*floe_area+ext_force(2))/floe_mass;
+            frac = dVi_dt/(floe.FyOA*floe_area+ext_force(2))*floe_mass;
             dUi_dt=(floe.FxOA*floe_area+ext_force(1))/floe_mass;
             dVi_dt=(floe.FyOA*floe_area+ext_force(2))/floe_mass;
             dUi_dt = frac*dUi_dt; dVi_dt = frac*dVi_dt; 
