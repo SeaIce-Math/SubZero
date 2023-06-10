@@ -98,7 +98,7 @@ for j = 1:Nx*Ny
     kill(j).floes = [];
     floe2(j).floe = [];
 end
-parfor j = 1:Nx*Ny && dhdt > 0
+parfor j = 1:Nx*Ny 
 
     count = 1;
     
